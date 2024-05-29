@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura</title>
+    <style>
+        * {
+            color: black;
+        }
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            color: black;
+            background: #f5f5f5;
+        }
+
+        .container-fluid {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .name-company {
+            font-size: 30px;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table thead {
+            background-color: #f0f0f0;
+        }
+
+        table thead tr th {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table tbody tr td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .totals-row {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .img-logo {
+            display: block;
+            margin: 10px auto;
+            width: 250px;
+            height: auto;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="header">
+        <img src="{% static 'img/logo2.jpeg' %}" class="img-logo">
+        <h1 class="name-company">{{ company.name }}</h1>
+        <p>
+            Sabaneta, Antioquia<br>
+            Celular: 3135588403<br>
+            Web: motosjda.com<br>
+        </p>
+    </div>
+    <p>
+        <b>Cliente:</b> {{ sale.client.name }}<br>
+        <b>Número de cédula:</b> {{ sale.client.identificationCard }}<br>
+        <b>Fecha de venta:</b> {{ sale.registrationDate|date:'c' }}<br>
+    </p>
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 20%;">Cantidad</th>
+            <th style="width: 40%;">Producto</th>
+            <th style="width: 20%;" class="text-right">Precio Unitario</th>
+            <th style="width: 20%;" class="text-right">Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for det in sale.detsale_set.all %}
+            <tr>
+                <td class="text-center">{{ det.quantity }}</td>
+                <td>{{ det.product.name }}</td>
+                <td class="text-right">{{ det.price|floatformat:3|intcomma }}</td>
+                <td class="text-right">{{ det.subtotal|floatformat:3|intcomma }}</td>
+            </tr>
+        {% endfor %}
+        <tr class="totals-row">
+            <td colspan="3" class="text-right"><b>Subtotal</b></td>
+            <td class="text-right">{{ sale.subtotal|floatformat:3|intcomma }}</td>
+        </tr>
+        <tr class="totals-row">
+            <td colspan="3" class="text-right"><b>Iva %</b></td>
+            <td class="text-right">{{ sale.iva|floatformat:2 }}</td>
+        </tr>
+        <tr class="totals-row">
+            <td colspan="3" class="text-right"><b>Total a pagar</b></td>
+            <td class="text-right">{{ sale.total|floatformat:3|intcomma }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="footer">
+        <p class="text-uppercase font-weight-bold text-center">
+            Total de productos: {{ sale.detsale_set.all.count }}<br>
+            ¡Gracias por su preferencia!<br>
+            Una vez que usted ha recibido el pedido,<br>
+            no hay derecho a reclamo ni devolución del producto.<br>
+            Que tenga un excelente día.
+        </p>
+    </div>
+</div>
+</body>
+</html>
