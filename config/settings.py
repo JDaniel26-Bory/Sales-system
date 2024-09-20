@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-cz+9vcw_8w-h2gz=iasljl42835lb9_h0s1+488sp%=maw)nuj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -144,21 +144,6 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'user.User'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
-# Email
-
-EMAIL_HOST = 'smtp.gmail.com'
-
-EMAIL_PORT = 587
-
-EMAIL_HOST_USER = 'djangopruebacorreo@gmail.com'
-
-EMAIL_HOST_PASSWORD = 'django12345'
-
-EMAIL_USE_TLS: True
-
-DOMAIN = ''
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

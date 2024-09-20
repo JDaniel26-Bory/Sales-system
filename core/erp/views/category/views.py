@@ -15,10 +15,6 @@ class CategoryListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, List
     template_name = 'category/list.html'
     permission_required = 'view_category'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -54,8 +50,8 @@ class CategoryCreateView(LoginRequiredMixin ,ValidatePermissionRequiredMixin, Cr
     permission_required = 'add_category'
     url_redirect = success_url
 
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}

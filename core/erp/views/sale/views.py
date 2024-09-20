@@ -29,10 +29,6 @@ class SaleListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView
     template_name = 'sale/list.html'
     permission_required = 'view_sale'
 
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -288,7 +284,7 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delete
         context['list_url'] = self.success_url
         return context
     
-class SaleInvoicePdfView(View):
+class SaleInvoicePdfView(LoginRequiredMixin, View):
 
 
     def get(self, request, *args, **kwargs):

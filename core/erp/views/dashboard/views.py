@@ -7,14 +7,15 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 
 class dashBoardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
-
+    
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             request.user.get_group_session()
@@ -79,3 +80,6 @@ class dashBoardView(LoginRequiredMixin, TemplateView):
         context['panel'] = 'Panel de administrador'
         context['graph_sales_year_months'] = self.get_graph_sales_year_months()
         return context
+
+def page_not_found404(request, exception):
+    return render(render, '404.html')
